@@ -8,7 +8,7 @@ import uuid
 import asyncio
 import aiohttp
 import re
-import shlex  # To properly handle splitting with quotes
+import shlex  
 from dotenv import load_dotenv
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
@@ -338,4 +338,3 @@ if __name__ == "__main__":
         web.run_app(APP, host="0.0.0.0", port=port)
     except Exception as error:
         raise error
-
