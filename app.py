@@ -31,7 +31,7 @@ from config import DefaultConfig
 
 CONFIG = DefaultConfig()
 
-# Create adapter.
+# Create adapter
 ADAPTER = CloudAdapter(ConfigurationBotFrameworkAuthentication(CONFIG))
 
 # Create memory storage and user state
@@ -170,7 +170,7 @@ class CustomEchoBot(EchoBot):
             for keyword in keywords:
                 params = {
                     'pageNumber': page_number,
-                    'pageSize': 10,  # Adjust page size as needed
+                    'pageSize': 50,  # Adjust page size as needed
                     'type': 'IM::any',
                     'keyword': keyword.strip(),
                     'includeProductAttributes': 'true',
@@ -262,7 +262,7 @@ class CustomEchoBot(EchoBot):
         print("Formatted response:\n", response_text)  # Debug statement
 
         # Check if there are more items
-        items_per_page = 10  # This should match the 'pageSize' parameter in your fetch_products method
+        items_per_page = 50 
         if items_in_current_page == items_per_page:
             response_text += f"\n\nYou are currently on page {current_page}. There are more results available."
             response_text += f"\nEnter 'page <number>' to navigate to a specific page."
