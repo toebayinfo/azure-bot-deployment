@@ -8,6 +8,7 @@ import uuid
 import asyncio
 import aiohttp
 import re
+import shlex  # To properly handle splitting with quotes
 from dotenv import load_dotenv
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
@@ -92,7 +93,7 @@ class CustomEchoBot(EchoBot):
     async def on_turn(self, turn_context: TurnContext):
         await self.ensure_access_token()
         user_page_state = await self.user_state_accessor.get(turn_context, {"current_page": 1, "keywords": []})
-        
+
         if turn_context.activity.type == 'message':
             user_message = turn_context.activity.text.lower()
             keyword_search = re.search(r"search product details for (.+)", user_message)
@@ -122,7 +123,7 @@ class CustomEchoBot(EchoBot):
             else:
                 response = await self.ask_openai(user_message)
                 await turn_context.send_activity(Activity(type="message", text=response))
-            
+
             await self.user_state_accessor.set(turn_context, user_page_state)
             await USER_STATE.save_changes(turn_context)
         elif turn_context.activity.type == 'conversationUpdate':
@@ -239,6 +240,7 @@ class CustomEchoBot(EchoBot):
     def format_response(self, products, current_page):
         formatted_products = []
         items_in_current_page = 0
+        product_index = 1  # Initialize product index
 
         for product_data in products:
             items_in_current_page += len(product_data.get('catalog', []))
@@ -254,19 +256,10 @@ class CustomEchoBot(EchoBot):
                 extraDescription = product.get('extraDescription', 'No Extended Description available')
                 subCategory = product.get('subCategory', 'No subcategory')
                 productType = product.get('productType', 'No product type')
-                formatted_product = (
-                    f"Vendor Name: {vendor_name}\n"
-                    f"Description: {description}\n"
-                    f"Category: {category}\n"
-                    f"Sub Category: {subCategory}\n"
-                    f"Product Type: {productType}\n"
-                    f"Vendor Part Number: {vendorPartNumber}\n"
-                    f"Extra Description: {extraDescription}\n"
-                    f"Price and availability: {links_info}\n"
-                )
+                formatted_product = f"**Product Details:** {vendor_name} - {description}  \n **Category:** {category} - {subCategory}  \n **Prodyct Type:** {productType}  \n**Price and availability:** {links_info}"
                 formatted_products.append(formatted_product)
-
         response_text = "\n\n".join(formatted_products)
+        print("Formatted response:\n", response_text)  # Debug statement
 
         # Check if there are more items
         items_per_page = 10  # This should match the 'pageSize' parameter in your fetch_products method
@@ -281,6 +274,8 @@ class CustomEchoBot(EchoBot):
 
     def format_product_details(self, product_details):
         formatted_products = []
+        if isinstance(product_details, dict):
+            product_details = product_details.get('products', [])
         for product in product_details:
             ingram_part_number = product.get('ingramPartNumber', 'N/A').upper()
             description = product.get('description', 'No description available')
@@ -304,10 +299,13 @@ class CustomEchoBot(EchoBot):
                 f"Total Availability: {total_availability}\n"
                 f"Retail Price: {retail_price}\n"
                 f"Customer Price: {customer_price}\n"
+                "----------------------------------------\n"
             )
             formatted_products.append(formatted_product)
 
-        return "\n\n".join(formatted_products)
+        response_text = "\n".join(formatted_products)
+        print("Formatted product details:\n", response_text)  # Debug statement
+        return response_text
 
 BOT = CustomEchoBot()
 

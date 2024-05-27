@@ -4,6 +4,23 @@ Bot Framework v4 echo bot sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
+# Project Name
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`OPENAI_API_KEY`
+
+`INGRAM_CLIENT_ID`
+
+`INGRAM_CLIENT_SECRET`
+
+`INGRAM_CUSTOMER_NUMBER`
+
+Refer to the `.env.template` file for reference.
+
+
 ## To try this sample
 
 - Clone the repository
