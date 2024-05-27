@@ -291,15 +291,14 @@ class CustomEchoBot(EchoBot):
             customer_price = pricing.get('customerPrice', 'N/A')
 
             formatted_product = (
-                f"Product Number: {ingram_part_number}\n"
-                f"Product Status Code: {product_status_code}\n"
-                f"Product Status Message: {product_status_message}\n"
-                f"Description: {description}\n"
-                f"Availability: {'Available' if available else 'Not Available'}\n"
-                f"Total Availability: {total_availability}\n"
-                f"Retail Price: {retail_price}\n"
-                f"Customer Price: {customer_price}\n"
-                "----------------------------------------\n"
+                f"**Product Number:** {ingram_part_number}  \n"
+                f"**Product Status Code:** {product_status_code}  \n"
+                f"**Product Status Message:** {product_status_message}  \n"
+                f"**Description:** {description}  \n"
+                f"**Availability:** {'Available' if available else 'Not Available'}  \n"
+                f"**Total Availability:** {total_availability}  \n"
+                f"**Retail Price:** {retail_price}  \n"
+                f"**Customer Price:** {customer_price}  \n"
             )
             formatted_products.append(formatted_product)
 
