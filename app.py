@@ -129,7 +129,7 @@ class CustomEchoBot(EchoBot):
             for keyword in keywords:
                 params = {
                     'pageNumber': 1,
-                    'pageSize': 25,
+                    'pageSize': 50,
                     'type': 'IM::any',
                     'keyword': keyword.strip(),
                     'includeProductAttributes': 'true',
