@@ -220,7 +220,7 @@ class CustomEchoBot(EchoBot):
     async def ask_openai(self, prompt):
         headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
         payload = {
-            "model": "gpt-4-turbo",
+            "model": "gpt-3.5-turbo",
             "messages": [
                 {"role": "system", "content": "Provide clear and straightforward answers. Do not mention the model's last update, or similar phrases."},
                 {"role": "user", "content": prompt}
