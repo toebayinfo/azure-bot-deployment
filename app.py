@@ -130,7 +130,7 @@ class CustomEchoBot(EchoBot):
             if turn_context.activity.members_added:
                 for member in turn_context.activity.members_added:
                     if member.id != turn_context.activity.recipient.id:
-                        await turn_context.send_activity(Activity(type="message", text="Welcome to the Ingram Micro Bot! Type 'hello' to start or ask me anything."))
+                        await turn_context.send_activity(Activity(type="message", text="Welcome to the Apollo Bot! How can I help you today?"))
 
     async def classify_query(self, query):
         headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
@@ -338,3 +338,4 @@ if __name__ == "__main__":
         web.run_app(APP, host="0.0.0.0", port=port)
     except Exception as error:
         raise error
+
